@@ -18,7 +18,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace GoogleARCore.HelloAR
+namespace CollabAR
 {
     using System.Collections.Generic;
     using UnityEngine;
