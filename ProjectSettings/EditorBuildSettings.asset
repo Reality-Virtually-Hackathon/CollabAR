@@ -11,3 +11,6 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/MyScene.unity
     guid: 95c09c51a53984638989a77c26fabdbf
+  - enabled: 0
+    path: Assets/MyScene.unity
+    guid: 95c09c51a53984638989a77c26fabdbf
