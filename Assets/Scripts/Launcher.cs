@@ -35,19 +35,13 @@ namespace com.CollabAR.CollabARDemo
         /// </summary>
         string _gameVersion = "1";
 
-        /// <summary>
-        /// Keep track of the current process. Since connection is asynchronous and is based on several callbacks from Photon, 
-        /// we need to keep track of this to properly adjust the behavior when we receive call back by Photon.
-        /// Typically this is used for the OnConnectedToMaster() callback.
-        /// </summary>
-        bool isConnecting;
 
         #endregion
 
 
         #region MonoBehaviour CallBacks
 
-
+        
 
         /// <summary>
         /// MonoBehaviour method called on GameObject by Unity during early initialization phase.
@@ -78,8 +72,6 @@ namespace com.CollabAR.CollabARDemo
         {
             progressLabel.SetActive(false);
             controlPanel.SetActive(true);
-
-            Debug.Log("DemoAnimator/Launcher: start");
         }
 
 
@@ -96,25 +88,19 @@ namespace com.CollabAR.CollabARDemo
         /// </summary>
         public void Connect()
         {
-            // keep track of the will to join a room, because when we come back from the game we will get a callback that we are connected, so we need to know what to do then
-            isConnecting = true;
 
             progressLabel.SetActive(true);
             controlPanel.SetActive(false);
-
-            Debug.Log("DemoAnimator/Launcher: connect() was called by PUN");
             // we check if we are connected or not, we join if we are , else we initiate the connection to the server.
             if (PhotonNetwork.connected)
             {
                 // #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnPhotonRandomJoinFailed() and we'll create one.
                 PhotonNetwork.JoinRandomRoom();
-                Debug.Log("DemoAnimator/Launcher: connected to randomroom");
             }
             else
             {
                 // #Critical, we must first and foremost connect to Photon Online Server.
                 PhotonNetwork.ConnectUsingSettings(_gameVersion);
-                Debug.Log("DemoAnimator/Launcher: connecting to online");
             }
         }
 
@@ -128,14 +114,9 @@ namespace com.CollabAR.CollabARDemo
         {
 
             Debug.Log("DemoAnimator/Launcher: OnConnectedToMaster() was called by PUN");
-            // we don't want to do anything if we are not attempting to join a room. 
-            // this case where isConnecting is false is typically when you lost or quit the game, when this level is loaded, OnConnectedToMaster will be called, in that case
-            // we don't want to do anything.
-            if (isConnecting)
-            {
-                // #Critical: The first we try to do is to join a potential existing room. If there is, good, else, we'll be called back with OnPhotonRandomJoinFailed()
-                PhotonNetwork.JoinRandomRoom();
-            }
+
+            // #Critical: The first we try to do is to join a potential existing room. If there is, good, else, we'll be called back with OnPhotonRandomJoinFailed()  
+            PhotonNetwork.JoinRandomRoom();
         }
 
 
@@ -156,17 +137,6 @@ namespace com.CollabAR.CollabARDemo
         public override void OnJoinedRoom()
         {
             Debug.Log("DemoAnimator/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
-
-            // #Critical: We only load if we are the first player, else we rely on  PhotonNetwork.automaticallySyncScene to sync our instance scene.
-            if (PhotonNetwork.room.PlayerCount == 1)
-            {
-                Debug.Log("We load the 'Firstversion' ");
-
-
-                // #Critical
-                // Load the Room Level. 
-                PhotonNetwork.LoadLevel("Firstversion");
-            }
         }
 
         #endregion
