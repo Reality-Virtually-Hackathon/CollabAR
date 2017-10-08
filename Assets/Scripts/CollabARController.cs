@@ -43,7 +43,7 @@ namespace GoogleARCore
         /// <summary>
         /// A model to place when a raycast from a user touch hits a plane.
         /// </summary>
-        public GameObject m_andyAndroidPrefab;
+        public GameObject m_lungs;
 
         /// <summary>
         /// A gameobject parenting UI for displaying the "searching for planes" snackbar.
@@ -119,7 +119,7 @@ namespace GoogleARCore
             }
 
             m_searchingForPlaneUI.SetActive(showSearchingUI);
-
+            /*
             Touch touch;
             if (Input.touchCount < 1 || (touch = Input.GetTouch(0)).phase != TouchPhase.Began)
             {
@@ -137,18 +137,20 @@ namespace GoogleARCore
 
                 // Intanstiate an Andy Android object as a child of the anchor; it's transform will now benefit
                 // from the anchor's tracking.
-                var andyObject = Instantiate(m_andyAndroidPrefab, hit.Point, Quaternion.identity,
+               
+                 var lungObject = Instantiate(m_lungs, hit.Point, Quaternion.identity,
                     anchor.transform);
 
                 // Andy should look at the camera but still be flush with the plane.
-                andyObject.transform.LookAt(m_firstPersonCamera.transform);
-                andyObject.transform.rotation = Quaternion.Euler(0.0f,
-                    andyObject.transform.rotation.eulerAngles.y, andyObject.transform.rotation.z);
+                lungObject.transform.LookAt(m_firstPersonCamera.transform);
+                lungObject.transform.rotation = Quaternion.Euler(0.0f,
+                    lungObject.transform.rotation.eulerAngles.y, lungObject.transform.rotation.z);
 
                 // Use a plane attachment component to maintain Andy's y-offset from the plane
                 // (occurs after anchor updates).
-                andyObject.GetComponent<PlaneAttachment>().Attach(hit.Plane);
-            }
+                lungObject.GetComponent<PlaneAttachment>().Attach(hit.Plane);
+               
+            }*/
         }
 
         /// <summary>
